@@ -85,11 +85,11 @@ $mysqli->close();
     <title>ToDoList</title>
 </head>
 <body class="bg-light">
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
     <a class="navbar-brand" href="#">ToDoList</a>
     <div class="ms-auto text-white">
-      Formateur : M MINKA
+      Etudiant : TOUKO YVAN
     </div>
   </div>
 </nav>
