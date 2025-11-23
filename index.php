@@ -76,20 +76,83 @@ if ($result) {
 $mysqli->close();
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Document</title>
+    <link rel="stylesheet" href="./bootstrap/css/bootstrap.min.css">
+    <title>ToDoList</title>
 </head>
-<body>
-    <header>
-        <h1>ToDoList</h1>
-        <button type="submit" name="action" value="new"></button>
-    </header>
-    <main>
+<body class="bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container">
+    <a class="navbar-brand" href="#">ToDoList</a>
+    <div class="ms-auto text-white">
+      Formateur : M MINKA
+    </div>
+  </div>
+</nav>
 
-    </main>
+<main class="container my-4">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+
+      <!-- Formulaire d'ajout -->
+      <div class="card mb-4">
+        <div class="card-body">
+          <h5 class="card-title">Ajouter une tâche</h5>
+          <form method="post" class="row g-2">
+            <input type="hidden" name="action" value="new">
+            <div class="col-9">
+              <input type="text" name="title" class="form-control" placeholder="Titre de la tâche" required maxlength="2048">
+            </div>
+            <div class="col-3 d-grid">
+              <button type="submit" class="btn btn-success">Ajouter</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Liste des tâches -->
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Tâches</h5>
+          <?php if (empty($taches)): ?>
+            <p class="text-muted">Aucune tâche pour le moment.</p>
+          <?php else: ?>
+            <ul class="list-group">
+              <?php foreach ($taches as $tache): ?>
+                <?php
+                  $classe = $tache->done ? 'list-group-item-success' : 'list-group-item-warning';
+                ?>
+                <li class="list-group-item d-flex justify-content-between align-items-start <?php echo $classe; ?>">
+                  <div class="ms-2 me-auto">
+                    <div class="fw-bold"><?php echo htmlspecialchars($tache->title, ENT_QUOTES, 'UTF-8'); ?></div>
+                    <small class="text-muted"><?php echo htmlspecialchars($tache->created_at, ENT_QUOTES, 'UTF-8'); ?></small>
+                  </div>
+
+                  <!-- Formulaire toggle/delete pour chaque tâche -->
+                  <form method="post" class="ms-3" style="display:flex;gap:.4rem;">
+                    <input type="hidden" name="id" value="<?php echo (int)$tache->id; ?>">
+                    <button type="submit" name="action" value="toggle" class="btn btn-sm btn-outline-primary" title="Basculer fait/non fait">
+                      <?php echo $tache->done ? 'Annuler' : 'Marquer fait'; ?>
+                    </button>
+                    <button type="submit" name="action" value="delete" class="btn btn-sm btn-danger" onclick="return confirm('Supprimer cette tâche ?');">
+                      Supprimer
+                    </button>
+                  </form>
+                </li>
+              <?php endforeach; ?>
+            </ul>
+          <?php endif; ?>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<script src="./bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
